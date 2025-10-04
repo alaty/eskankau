@@ -1,0 +1,79 @@
+/**
+ * @fileoverview Firestore Security Rules for the student housing revenue tracking application.
+ *
+ * Core Philosophy:
+ * This ruleset implements an administrator-only access model. Only authenticated administrators
+ * can read or write data to any part of the database.  This provides a simple and secure
+ * foundation for prototyping.
+ *
+ * Data Structure:
+ * The Firestore database consists of a top-level `buildings` collection, with subcollections
+ * for `revenue_statistics` and `revenue_forecasts` under each building document. The `buildingId`
+ * is used to maintain a clear relationship between these entities.
+ *
+ * Key Security Decisions:
+ * - All collections are managed by administrators.
+ * - No public access is permitted.
+ * - User-specific data isolation is not a requirement in this model.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Secures the `buildings` collection, allowing only administrators to read and write building data.
+     * @path /buildings/{buildingId}
+     * @allow (get, list) if isSignedIn() - Allows any signed-in administrator to read building data.
+     * @allow (create, update, delete) if isSignedIn() - Allows any signed-in administrator to modify building data.
+     * @deny (get, list) if !isSignedIn() - Denies non-administrators from reading building data.
+     * @deny (create, update, delete) if !isSignedIn() - Denies non-administrators from modifying building data.
+     * @principle Enforces administrator-only access for managing building information.
+     */
+    match /buildings/{buildingId} {
+      allow get: if isSignedIn();
+      allow list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+    /**
+     * @description Secures the `revenue_statistics` subcollection, allowing only administrators to read and write revenue statistics for a specific building.
+     * @path /buildings/{buildingId}/revenue_statistics/{revenueStatisticId}
+     * @allow (get, list) if isSignedIn() - Allows any signed-in administrator to read revenue statistics.
+     * @allow (create, update, delete) if isSignedIn() - Allows any signed-in administrator to modify revenue statistics.
+     * @deny (get, list) if !isSignedIn() - Denies non-administrators from reading revenue statistics.
+     * @deny (create, update, delete) if !isSignedIn() - Denies non-administrators from modifying revenue statistics.
+     * @principle Enforces administrator-only access for managing revenue statistics.
+     */
+    match /buildings/{buildingId}/revenue_statistics/{revenueStatisticId} {
+      allow get: if isSignedIn();
+      allow list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+    /**
+     * @description Secures the `revenue_forecasts` subcollection, allowing only administrators to read and write revenue forecasts for a specific building.
+     * @path /buildings/{buildingId}/revenue_forecasts/{revenueForecastId}
+     * @allow (get, list) if isSignedIn() - Allows any signed-in administrator to read revenue forecasts.
+     * @allow (create, update, delete) if isSignedIn() - Allows any signed-in administrator to modify revenue forecasts.
+     * @deny (get, list) if !isSignedIn() - Denies non-administrators from reading revenue forecasts.
+     * @deny (create, update, delete) if !isSignedIn() - Denies non-administrators from modifying revenue forecasts.
+     * @principle Enforces administrator-only access for managing revenue forecasts.
+     */
+    match /buildings/{buildingId}/revenue_forecasts/{revenueForecastId} {
+      allow get: if isSignedIn();
+      allow list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+    // Helper function to check if the user is signed in (administrator).
+    function isSignedIn() {
+      return request.auth != null;
+    }
+  }
+}

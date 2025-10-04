@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 220 30% 97%; /* Platinum */
+    --foreground: 220 15% 25%;
+
+    --card: 220 30% 100%;
+    --card-foreground: 220 15% 25%;
+ 
+    --popover: 220 30% 100%;
+    --popover-foreground: 220 15% 25%;
+ 
+    --primary: 195 70% 45%; /* Professional Teal/Cyan */
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 220 20% 92%;
+    --secondary-foreground: 220 15% 25%;
+ 
+    --muted: 220 20% 92%;
+    --muted-foreground: 220 10% 45%;
+ 
+    --accent: 35 90% 55%; /* Amber */
+    --accent-foreground: 211 72% 21%; /* Header/Footer Color */
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 20% 88%;
+    --input: 220 20% 94%;
+    --ring: 195 70% 45%;
+ 
+    --radius: 0.5rem;
+
+    --sidebar-background: 210 20% 98%; /* User requested color */
+    --sidebar-foreground: 220 15% 25%;
+    --sidebar-primary: 195 70% 45%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 220 20% 92%;
+    --sidebar-accent-foreground: 220 15% 25%;
+    --sidebar-border: 220 20% 88%;
+    --sidebar-ring: 195 70% 45%;
+
+    --chart-1: 195 70% 45%;
+    --chart-2: 35 90% 55%;
+    --chart-3: 215 60% 55%;
+    --chart-4: 0 72% 51%;
+    --chart-5: 262 75% 60%;
+  }
+ 
+  .dark {
+    --background: 220 15% 10%;
+    --foreground: 210 40% 98%;
+ 
+    --card: 220 15% 10%;
+    --card-foreground: 210 40% 98%;
+ 
+    --popover: 220 15% 10%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 195 70% 50%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --muted: 220 15% 15%;
+    --muted-foreground: 220 10% 60%;
+ 
+    --accent: 35 90% 60%;
+    --accent-foreground: 211 72% 21%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 220 15% 25%;
+    --input: 220 15% 25%;
+    --ring: 195 70% 50%;
+
+    --sidebar-background: 220 15% 12%; /* Darker sidebar for dark mode */
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 195 70% 50%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 220 15% 20%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 220 15% 25%;
+    --sidebar-ring: 195 70% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@media print {
+  body, html {
+    background: #fff !important;
+    color: #000 !important;
+    margin: 0;
+    padding: 0;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  #payment-plan-card {
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .container {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .print-header {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+  }
+  .print-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  .print-logo {
+    max-height: 50px;
+  }
+  .print-table {
+    width: 100%;
+    page-break-inside: auto;
+  }
+  .print-table tr, .print-table td, .print-table th {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+  .recharts-responsive-container {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1.5; /* Adjust aspect ratio for print */
+  }
+}
